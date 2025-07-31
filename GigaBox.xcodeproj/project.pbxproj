@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		159A1B152E3B4D2600CB0363 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 159A1B142E3B4D2600CB0363 /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		159A1AFC2E3B4C7C00CB0363 /* GigaBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GigaBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		159A1B142E3B4D2600CB0363 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -45,6 +50,7 @@
 		159A1AF32E3B4C7C00CB0363 = {
 			isa = PBXGroup;
 			children = (
+				159A1B142E3B4D2600CB0363 /* .gitignore */,
 				159A1AFE2E3B4C7C00CB0363 /* GigaBox */,
 				159A1AFD2E3B4C7C00CB0363 /* Products */,
 			);
@@ -122,6 +128,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				159A1B152E3B4D2600CB0363 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
