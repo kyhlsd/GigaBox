@@ -17,10 +17,19 @@ class IntroBaseViewController: UIViewController {
         return imageView
     }()
     
-    private let titleLabel = {
+    let titleLabel = {
         let label = UILabel()
         label.font = AppFonts.onboarding
         label.textColor = .customWhite
+        return label
+    }()
+    
+    let subtitleLabel = {
+        let label = UILabel()
+        label.font = AppFonts.body
+        label.textColor = .customLightGray
+        label.numberOfLines = 2
+        label.textAlignment = .center
         return label
     }()
     
@@ -30,18 +39,17 @@ class IntroBaseViewController: UIViewController {
         configureViewDesign()
     }
 
-    private func setLabelText(_ label: UILabel, text: String) {
-        label.text = text
-    }
 }
 
 extension IntroBaseViewController: ViewDesignProtocol {
+    @objc
     func configureHierarchy() {
-        [splashImageView, titleLabel].forEach {
+        [splashImageView, titleLabel, subtitleLabel].forEach {
             view.addSubview($0)
         }
     }
     
+    @objc
     func configureLayout() {
         let safeArea = view.safeAreaLayoutGuide
         
@@ -55,8 +63,14 @@ extension IntroBaseViewController: ViewDesignProtocol {
             make.centerX.equalTo(safeArea)
             make.top.equalTo(splashImageView.snp.bottom).offset(80)
         }
+        
+        subtitleLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(safeArea)
+            make.top.equalTo(titleLabel.snp.bottom).offset(24)
+        }
     }
     
+    @objc
     func configureView() {
         view.backgroundColor = .customBlack
     }
