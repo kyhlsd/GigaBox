@@ -18,6 +18,7 @@ final class NicknameDetailViewController: NicknameBaseViewController {
     }()
     
     private let nickname: String
+    private var nicknameError: NonValidTextError?
     
     init(nickname: String) {
         self.nickname = nickname
@@ -41,7 +42,23 @@ final class NicknameDetailViewController: NicknameBaseViewController {
     
     @objc
     private func textFieldDidChange(_ sender: UITextField) {
-        print(#function)
+        let min = 2
+        let max = 9
+        do {
+            let text = sender.text
+            try TextValidateHelper.validateLength(text, min: min, max: max)
+            try TextValidateHelper.validateNumber(text)
+            try TextValidateHelper.validateSpecialChar(text, specialChars: ["@", "#", "$", "%"])
+            nicknameError = nil
+            statusLabel.text = ""
+        } catch let error as NonValidTextError {
+            nicknameError = error
+            statusLabel.text = error.errorMessage
+        } catch {
+            let error = NonValidTextError.unknown
+            nicknameError = error
+            statusLabel.text = error.errorMessage
+        }
     }
 }
 
@@ -65,7 +82,7 @@ extension NicknameDetailViewController {
         super.configureView()
         
         nicknameTextField.isEnabled = true
+        nicknameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .valueChanged)
         nicknameTextField.text = nickname
-        nicknameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
 }
