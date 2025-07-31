@@ -9,16 +9,7 @@ import UIKit
 
 final class OnboardingViewController: IntroBaseViewController {
 
-    private let startButton = {
-        let button = UIButton()
-        button.setTitle("시작하기", for: .normal)
-        button.setTitleColor(.customGreen, for: .normal)
-        button.backgroundColor = .clear
-        button.layer.borderColor = UIColor.customGreen.cgColor
-        button.layer.borderWidth = 1.0
-        button.clipsToBounds = true
-        return button
-    }()
+    private let startButton = RoundedButton(title: "시작하기", color: .customGreen)
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -36,6 +27,13 @@ final class OnboardingViewController: IntroBaseViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+    @objc
+    private func startButtonTapped() {
+        navigationController?.pushViewController(NicknameSettingViewController(), animated: true)
+    }
+}
+
+extension OnboardingViewController {
     override func configureHierarchy() {
         super.configureHierarchy()
         
@@ -65,10 +63,5 @@ final class OnboardingViewController: IntroBaseViewController {
         navigationItem.backButtonTitle = " "
         
         startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
-    }
-    
-    @objc
-    private func startButtonTapped() {
-        navigationController?.pushViewController(NicknameBaseViewController(), animated: true)
     }
 }

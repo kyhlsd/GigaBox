@@ -10,7 +10,7 @@ import SnapKit
 
 class NicknameBaseViewController: UIViewController {
 
-    private let nicknameTextField = {
+    let nicknameTextField = {
         let textField = UITextField()
         textField.textColor = .customWhite
         textField.attributedPlaceholder = NSAttributedString(string: "편집 버튼으로 닉네임을 설정해주세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.customGray])
@@ -19,7 +19,7 @@ class NicknameBaseViewController: UIViewController {
         return textField
     }()
     
-    private let baseLineView = {
+    let baseLineView = {
         let view = UIView()
         view.backgroundColor = .customLightGray
         return view
@@ -34,12 +34,14 @@ class NicknameBaseViewController: UIViewController {
 }
 
 extension NicknameBaseViewController: ViewDesignProtocol {
+    @objc
     func configureHierarchy() {
         [nicknameTextField, baseLineView].forEach {
             view.addSubview($0)
         }
     }
     
+    @objc
     func configureLayout() {
         let safeArea = view.safeAreaLayoutGuide
         
@@ -56,6 +58,7 @@ extension NicknameBaseViewController: ViewDesignProtocol {
         }
     }
     
+    @objc
     func configureView() {
         view.backgroundColor = .customBlack
         

@@ -66,7 +66,7 @@ extension IntroBaseViewController: ViewDesignProtocol {
         
         subtitleLabel.snp.makeConstraints { make in
             make.centerX.equalTo(safeArea)
-            make.top.equalTo(titleLabel.snp.bottom).offset(24)
+            make.top.equalTo(titleLabel.snp.bottom).offset(AppPadding.verticalPadding)
         }
     }
     
