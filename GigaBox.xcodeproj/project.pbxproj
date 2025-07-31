@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		159A1B152E3B4D2600CB0363 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 159A1B142E3B4D2600CB0363 /* .gitignore */; };
+		159A1B6D2E3B58F900CB0363 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 159A1B6C2E3B58F900CB0363 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				159A1B6D2E3B58F900CB0363 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +86,7 @@
 			);
 			name = GigaBox;
 			packageProductDependencies = (
+				159A1B6C2E3B58F900CB0363 /* SnapKit */,
 			);
 			productName = GigaBox;
 			productReference = 159A1AFC2E3B4C7C00CB0363 /* GigaBox.app */;
@@ -113,6 +116,9 @@
 			);
 			mainGroup = 159A1AF32E3B4C7C00CB0363;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				159A1B6B2E3B58F900CB0363 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 159A1AFD2E3B4C7C00CB0363 /* Products */;
 			projectDirPath = "";
@@ -352,6 +358,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		159A1B6B2E3B58F900CB0363 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		159A1B6C2E3B58F900CB0363 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 159A1B6B2E3B58F900CB0363 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 159A1AF42E3B4C7C00CB0363 /* Project object */;
 }
