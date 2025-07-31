@@ -20,7 +20,9 @@ final class NicknameSettingViewController: NicknameBaseViewController {
     
     @objc
     private func editButtonTapped() {
-        
+        guard let nickname = nicknameTextField.text else { return }
+        let viewController = NicknameDetailViewController(nickname: nickname)
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
     @objc

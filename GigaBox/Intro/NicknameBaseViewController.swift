@@ -12,8 +12,9 @@ class NicknameBaseViewController: UIViewController {
 
     let nicknameTextField = {
         let textField = UITextField()
+        textField.font = AppFonts.body
         textField.textColor = .customWhite
-        textField.attributedPlaceholder = NSAttributedString(string: "편집 버튼으로 닉네임을 설정해주세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.customGray])
+        textField.attributedPlaceholder = NSAttributedString(string: "닉네임을 설정해주세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.customGray])
         textField.isEnabled = false
         textField.borderStyle = .none
         return textField
