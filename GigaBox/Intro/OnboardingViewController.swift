@@ -14,13 +14,14 @@ final class OnboardingViewController: IntroBaseViewController {
         button.setTitle("시작하기", for: .normal)
         button.setTitleColor(.customGreen, for: .normal)
         button.backgroundColor = .clear
-        button.layer.borderColor = UIColor(named: "CustomGreen")?.cgColor
+        button.layer.borderColor = UIColor.customGreen.cgColor
         button.layer.borderWidth = 1.0
         button.clipsToBounds = true
         return button
     }()
     
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         startButton.layer.cornerRadius = startButton.frame.height / 2
     }
     
@@ -30,7 +31,8 @@ final class OnboardingViewController: IntroBaseViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
@@ -59,6 +61,7 @@ final class OnboardingViewController: IntroBaseViewController {
         subtitleLabel.text = "당신만의 영화 세상,\nGigaBox를 시작해보세요."
         
         navigationController?.navigationBar.tintColor = .customGreen
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
         navigationItem.backButtonTitle = " "
         
         startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
@@ -66,6 +69,6 @@ final class OnboardingViewController: IntroBaseViewController {
     
     @objc
     private func startButtonTapped() {
-        navigationController?.pushViewController(ViewController(), animated: true)
+        navigationController?.pushViewController(NicknameBaseViewController(), animated: true)
     }
 }
