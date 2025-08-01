@@ -8,7 +8,7 @@
 import UIKit
 
 enum AppFonts {
-    static let onboarding = UIFont.systemFont(ofSize: 28).fontDescriptor.withSymbolicTraits([.traitItalic, .traitBold])
+    static let onboarding = UIFont.italicSystemFont(ofSize: 32)
     static let title = UIFont.systemFont(ofSize: 16, weight: .bold)
     static let header = UIFont.systemFont(ofSize: 16, weight: .semibold)
     static let body = UIFont.systemFont(ofSize: 14)
