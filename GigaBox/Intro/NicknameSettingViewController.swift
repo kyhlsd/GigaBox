@@ -7,27 +7,70 @@
 
 import UIKit
 import SnapKit
+import Toast
+
+protocol NicknamePassingDelegate: AnyObject {
+    func setNickname(_ nickname: String?)
+    var nicknameErrorMessage: String? { get set }
+}
 
 final class NicknameSettingViewController: NicknameBaseViewController {
     
     private let editButton = RoundedButton(title: "편집", color: .customWhite)
     private let completeButton = RoundedButton(title: "완료", color: .customGreen)
     
+    var nickname = UserDefaultManager.nickname
+    var nicknameErrorMessage: String?
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         completeButton.layer.cornerRadius = completeButton.frame.height / 2
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        nicknameTextField.text = nickname
+    }
+    
     @objc
     private func editButtonTapped() {
-        guard let nickname = nicknameTextField.text else { return }
         let viewController = NicknameDetailViewController(nickname: nickname)
+        viewController.delegate = self
         navigationController?.pushViewController(viewController, animated: true)
     }
     
     @objc
     private func completeButtonTapped() {
-        print(#function)
+        var toastStyle = ToastStyle()
+        toastStyle.backgroundColor = .customWhite
+        toastStyle.messageColor = .customBlack
+        
+        guard let nickname, !nickname.isEmpty else {
+            let errorMessage = "닉네임을 " + NonValidTextError.invalidLength(min: 2, max: 9).errorMessage
+            view.makeToast(errorMessage, duration: 2, position: .bottom, style: toastStyle)
+            return
+        }
+        
+        if let nicknameErrorMessage {
+            view.makeToast(nicknameErrorMessage, duration: 2, position: .bottom, style: toastStyle)
+        } else {
+            UserDefaultManager.nickname = nickname
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                DispatchQueue.main.async {
+                    UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
+                        window.rootViewController = ViewController()
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension NicknameSettingViewController: NicknamePassingDelegate {
+    func setNickname(_ nickname: String?) {
+        nicknameTextField.text = nickname
+        self.nickname = nickname
     }
 }
 

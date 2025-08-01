@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		159A1B152E3B4D2600CB0363 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 159A1B142E3B4D2600CB0363 /* .gitignore */; };
 		159A1BE82E3B981800CB0363 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 159A1BE72E3B981800CB0363 /* SnapKit */; };
+		159A1DEA2E3C3EA200CB0363 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 159A1DE92E3C3EA200CB0363 /* Toast */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				159A1DEA2E3C3EA200CB0363 /* Toast in Frameworks */,
 				159A1BE82E3B981800CB0363 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,6 +89,7 @@
 			name = GigaBox;
 			packageProductDependencies = (
 				159A1BE72E3B981800CB0363 /* SnapKit */,
+				159A1DE92E3C3EA200CB0363 /* Toast */,
 			);
 			productName = GigaBox;
 			productReference = 159A1AFC2E3B4C7C00CB0363 /* GigaBox.app */;
@@ -118,6 +121,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				159A1BE62E3B981800CB0363 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				159A1DE82E3C3EA200CB0363 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 159A1AFD2E3B4C7C00CB0363 /* Products */;
@@ -368,6 +372,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		159A1DE82E3C3EA200CB0363 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -375,6 +387,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 159A1BE62E3B981800CB0363 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		159A1DE92E3C3EA200CB0363 /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 159A1DE82E3C3EA200CB0363 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

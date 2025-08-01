@@ -17,10 +17,11 @@ final class NicknameDetailViewController: NicknameBaseViewController {
         return label
     }()
     
-    private let nickname: String
-    private var nicknameError: NonValidTextError?
+    private let nickname: String?
+    private var nicknameErrorMessage: String?
+    weak var delegate: NicknamePassingDelegate?
     
-    init(nickname: String) {
+    init(nickname: String?) {
         self.nickname = nickname
         super.init(nibName: nil, bundle: nil)
     }
@@ -37,27 +38,39 @@ final class NicknameDetailViewController: NicknameBaseViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print(#function)
+        delegate?.setNickname(nicknameTextField.text)
+        delegate?.nicknameErrorMessage = nicknameErrorMessage
     }
     
     @objc
     private func textFieldDidChange(_ sender: UITextField) {
+        validateText(sender.text)
+    }
+    
+    private func validateText(_ text: String?) {
         let min = 2
         let max = 9
+        let baseString = "닉네임에 "
         do {
-            let text = sender.text
+            let text = text
             try TextValidateHelper.validateLength(text, min: min, max: max)
             try TextValidateHelper.validateNumber(text)
             try TextValidateHelper.validateSpecialChar(text, specialChars: ["@", "#", "$", "%"])
-            nicknameError = nil
-            statusLabel.text = ""
+            nicknameErrorMessage = nil
+            statusLabel.text = "사용할 수 있는 닉네임이에요."
         } catch let error as NonValidTextError {
-            nicknameError = error
-            statusLabel.text = error.errorMessage
+            if error.errorMessage == NonValidTextError.invalidLength(min: min, max: max).errorMessage {
+                statusLabel.text = "닉네임을 " + error.errorMessage
+                nicknameErrorMessage = "닉네임을 " + error.errorMessage
+            } else {
+                let errorMessage = baseString + error.errorMessage
+                statusLabel.text = errorMessage
+                nicknameErrorMessage = errorMessage
+            }
         } catch {
-            let error = NonValidTextError.unknown
-            nicknameError = error
-            statusLabel.text = error.errorMessage
+            let errorMessage = baseString + NonValidTextError.unknown.errorMessage
+            nicknameErrorMessage = errorMessage
+            statusLabel.text = errorMessage
         }
     }
 }
@@ -80,9 +93,11 @@ extension NicknameDetailViewController {
     
     override func configureView() {
         super.configureView()
-        
+
         nicknameTextField.isEnabled = true
-        nicknameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .valueChanged)
+        nicknameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         nicknameTextField.text = nickname
+        
+        validateText(nickname)
     }
 }

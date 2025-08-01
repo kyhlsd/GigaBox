@@ -8,8 +8,8 @@
 import Foundation
 
 enum UserDefaultManager {
-    @UserDefault(key: "nickname", defaultValue: "")
-    static var nickname: String
+    @UserDefault(key: "nickname", defaultValue: nil)
+    static var nickname: String?
 }
 
 @propertyWrapper

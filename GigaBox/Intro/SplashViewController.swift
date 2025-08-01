@@ -28,7 +28,7 @@ final class SplashViewController: IntroBaseViewController {
     }
     
     private func convertViewController() {
-        let viewController = nickname.isEmpty ? OnboardingViewController() : ViewController()
+        let viewController = (nickname == nil) ? OnboardingViewController() : ViewController()
         let navigationController = UINavigationController(rootViewController: viewController)
         
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
