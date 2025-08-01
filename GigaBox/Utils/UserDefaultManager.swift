@@ -8,8 +8,14 @@
 import Foundation
 
 enum UserDefaultManager {
-    @UserDefault(key: "nickname", defaultValue: nil)
+    @UserDefault(key: "Nickname", defaultValue: nil)
     static var nickname: String?
+    
+    @UserDefault(key: "SignUpDate", defaultValue: nil)
+    static var signUpDate: Date?
+    
+    @UserDefault(key: "MovieBox", defaultValue: [])
+    static var moviebox: [String]
 }
 
 @propertyWrapper

@@ -28,8 +28,10 @@ final class SplashViewController: IntroBaseViewController {
     }
     
     private func convertViewController() {
-        let viewController = (nickname == nil) ? OnboardingViewController() : ViewController()
+        let viewController = (nickname == nil) ? OnboardingViewController() : CinemaHomeViewController()
         let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.navigationBar.tintColor = .customGreen
+        navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
         
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let window = windowScene.windows.first {

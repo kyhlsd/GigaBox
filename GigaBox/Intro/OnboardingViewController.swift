@@ -58,8 +58,6 @@ extension OnboardingViewController {
         titleLabel.text = "Onboarding"
         subtitleLabel.text = "당신만의 영화 세상,\nGigaBox를 시작해보세요."
         
-        navigationController?.navigationBar.tintColor = .customGreen
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
         navigationItem.backButtonTitle = " "
         
         startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)

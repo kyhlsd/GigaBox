@@ -1,0 +1,96 @@
+//
+//  CinemaHomeViewController.swift
+//  GigaBox
+//
+//  Created by 김영훈 on 8/1/25.
+//
+
+import UIKit
+import SnapKit
+
+protocol TableViewReloadRowDelegate: AnyObject {
+    func reloadRow()
+}
+
+final class CinemaHomeViewController: UIViewController {
+    
+    private let tableView = {
+        let tableView = UITableView()
+        tableView.allowsSelection = false
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.register(cellType: ProfileTableViewCell.self)
+        tableView.backgroundColor = .clear
+        return tableView
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        configureViewDesign()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    @objc
+    private func searchButtonTapped() {
+        print(#function)
+    }
+    
+    private func presentNicknameSetting() {
+        let viewController = NicknameSettingViewController()
+        viewController.setEditingMode()
+        viewController.delegate = self
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.navigationBar.tintColor = .customGreen
+        navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
+        present(navigationController, animated: true)
+    }
+}
+
+extension CinemaHomeViewController: TableViewReloadRowDelegate {
+    func reloadRow() {
+        tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+    }
+}
+
+extension CinemaHomeViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(cellType: ProfileTableViewCell.self, for: indexPath)
+        cell.presentNicknameSetting = presentNicknameSetting
+        return cell
+    }
+}
+
+extension CinemaHomeViewController: ViewDesignProtocol {
+    func configureHierarchy() {
+        view.addSubview(tableView)
+    }
+    
+    func configureLayout() {
+        let safeArea = view.safeAreaLayoutGuide
+        
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(safeArea).inset(AppPadding.verticalPadding)
+            make.horizontalEdges.equalTo(safeArea)
+            make.bottom.equalTo(safeArea)
+        }
+    }
+    
+    func configureView() {
+        view.backgroundColor = .customBlack
+        
+        navigationItem.title = "GigaBox"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchButtonTapped))
+    }
+    
+    
+}
