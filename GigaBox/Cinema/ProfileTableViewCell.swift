@@ -38,11 +38,12 @@ final class ProfileTableViewCell: UITableViewCell, Identifying {
         return label
     }()
 
-    private let profileEditButton = {
-        let button = UIButton()
-        button.tintColor = .customLightGray
-        button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
-        return button
+    private let chevronImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "chevron.right")
+        imageView.contentMode = .scaleToFill
+        imageView.tintColor = .customLightGray
+        return imageView
     }()
     
     private let movieBoxButton = {
@@ -55,14 +56,11 @@ final class ProfileTableViewCell: UITableViewCell, Identifying {
         return button
     }()
     
-    var presentNicknameSetting: (() -> Void)?
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         configureViewDesign()
-        
-        profileEditButton.addTarget(self, action: #selector(profileEditButtonTapped), for: .touchUpInside)
+        movieBoxButton.addTarget(self, action: #selector(movieBoxButtonTapped), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -77,14 +75,14 @@ final class ProfileTableViewCell: UITableViewCell, Identifying {
     }
     
     @objc
-    private func profileEditButtonTapped() {
-        presentNicknameSetting?()
+    private func movieBoxButtonTapped() {
+        print(#function)
     }
 }
 
 extension ProfileTableViewCell: ViewDesignProtocol {
     func configureHierarchy() {
-        [nicknameLabel, signUpDateLabel, profileEditButton, movieBoxButton].forEach {
+        [nicknameLabel, signUpDateLabel, chevronImageView, movieBoxButton].forEach {
             containerView.addSubview($0)
         }
         contentView.addSubview(containerView)
@@ -101,14 +99,15 @@ extension ProfileTableViewCell: ViewDesignProtocol {
             make.leading.equalToSuperview().inset(AppPadding.horizontalInset)
         }
         
-        profileEditButton.snp.makeConstraints { make in
+        chevronImageView.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(AppPadding.horizontalInset)
             make.centerY.equalTo(nicknameLabel)
-            make.size.equalTo(24)
+            make.width.equalTo(16)
+            make.height.equalTo(24)
         }
         
         signUpDateLabel.snp.makeConstraints { make in
-            make.trailing.equalTo(profileEditButton.snp.leading).offset(4)
+            make.trailing.equalTo(chevronImageView.snp.leading).inset(-8)
             make.centerY.equalTo(nicknameLabel)
         }
         
@@ -121,5 +120,6 @@ extension ProfileTableViewCell: ViewDesignProtocol {
     
     func configureView() {
         backgroundColor = .clear
+        selectionStyle = .none
     }
 }

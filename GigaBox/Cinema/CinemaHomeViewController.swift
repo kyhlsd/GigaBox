@@ -16,7 +16,6 @@ final class CinemaHomeViewController: UIViewController {
     
     private let tableView = {
         let tableView = UITableView()
-        tableView.allowsSelection = false
         tableView.rowHeight = UITableView.automaticDimension
         tableView.register(cellType: ProfileTableViewCell.self)
         tableView.backgroundColor = .clear
@@ -41,15 +40,6 @@ final class CinemaHomeViewController: UIViewController {
         print(#function)
     }
     
-    private func presentNicknameSetting() {
-        let viewController = NicknameSettingViewController()
-        viewController.setEditingMode()
-        viewController.delegate = self
-        let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.navigationBar.tintColor = .customGreen
-        navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
-        present(navigationController, animated: true)
-    }
 }
 
 extension CinemaHomeViewController: TableViewReloadRowDelegate {
@@ -65,8 +55,19 @@ extension CinemaHomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(cellType: ProfileTableViewCell.self, for: indexPath)
-        cell.presentNicknameSetting = presentNicknameSetting
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            let viewController = NicknameSettingViewController()
+            viewController.setEditingMode()
+            viewController.delegate = self
+            let navigationController = UINavigationController(rootViewController: viewController)
+            navigationController.navigationBar.tintColor = .customGreen
+            navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
+            present(navigationController, animated: true)
+        }
     }
 }
 
