@@ -18,7 +18,9 @@ final class CinemaHomeViewController: UIViewController {
         let tableView = UITableView()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.register(cellType: ProfileTableViewCell.self)
+        tableView.register(cellType: RecentWordsTableViewCell.self)
         tableView.backgroundColor = .clear
+        tableView.isScrollEnabled = false
         return tableView
     }()
     
@@ -50,16 +52,25 @@ extension CinemaHomeViewController: TableViewReloadRowDelegate {
 
 extension CinemaHomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(cellType: ProfileTableViewCell.self, for: indexPath)
-        return cell
+        switch indexPath.row {
+        case 0:
+            return tableView.dequeueReusableCell(cellType: ProfileTableViewCell.self, for: indexPath)
+        case 1:
+            return tableView.dequeueReusableCell(cellType: RecentWordsTableViewCell.self, for: indexPath)
+//        case 2:
+            
+        default:
+            return UITableViewCell()
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
+        if indexPath.row == 0 {
             let viewController = NicknameSettingViewController()
             viewController.setEditingMode()
             viewController.delegate = self
