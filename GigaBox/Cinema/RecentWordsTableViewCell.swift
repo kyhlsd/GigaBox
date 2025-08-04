@@ -8,7 +8,11 @@
 import UIKit
 import SnapKit
 
-final class RecentWordsCollectionViewCell: UITableViewCell, Identifying {
+protocol DeleteRecentWordProtocol: AnyObject {
+    func deleteWord(_ text: String)
+}
+
+final class RecentWordsTableViewCell: UITableViewCell, Identifying {
 
     private let titleLabel = {
         let label = UILabel()
@@ -22,6 +26,7 @@ final class RecentWordsCollectionViewCell: UITableViewCell, Identifying {
         let button = UIButton()
         button.setTitle("전체 삭제", for: .normal)
         button.setTitleColor(.customGreen, for: .normal)
+        button.setTitleColor(.systemGray, for: .highlighted)
         return button
     }()
 
@@ -37,8 +42,7 @@ final class RecentWordsCollectionViewCell: UITableViewCell, Identifying {
         return collectionView
     }()
     
-//    private let tempList = ["현빈", "스파이더", "해리포터", "소방관", "크리스마스"]
-    private let tempList = [String]()
+    private var tempList = UserDefaultManager.moviebox
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -57,13 +61,29 @@ final class RecentWordsCollectionViewCell: UITableViewCell, Identifying {
     
     @objc
     private func deleteButtonTapped() {
-        print(#function)
+        tempList.removeAll()
+        UserDefaultManager.moviebox = tempList
+        collectionView.reloadData()
     }
 }
 
-extension RecentWordsCollectionViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
+extension RecentWordsTableViewCell: DeleteRecentWordProtocol {
+    func deleteWord(_ text: String) {
+        tempList.removeAll { $0 == text }
+        UserDefaultManager.moviebox = tempList
+        collectionView.reloadData()
+    }
+}
+
+extension RecentWordsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tempList.isEmpty ? 1 : tempList.count
+        if tempList.isEmpty {
+            collectionView.isScrollEnabled = false
+            return 1
+        } else {
+            collectionView.isScrollEnabled = true
+            return tempList.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -71,13 +91,14 @@ extension RecentWordsCollectionViewCell: UICollectionViewDelegate, UICollectionV
             return collectionView.dequeueReusableCell(cellType: EmptyWordCollectionViewCell.self, for: indexPath)
         } else {
             let cell = collectionView.dequeueReusableCell(cellType: WordCollectionViewCell.self, for: indexPath)
+            cell.delegate = self
             cell.configureData(tempList[indexPath.item])
             return cell
         }
     }
 }
 
-extension RecentWordsCollectionViewCell: UICollectionViewDelegateFlowLayout {
+extension RecentWordsTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if tempList.isEmpty {
             return contentView.frame.size
@@ -85,9 +106,16 @@ extension RecentWordsCollectionViewCell: UICollectionViewDelegateFlowLayout {
             return CGSize(width: 100, height: 32)
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // TODO: View 연결
+        if !tempList.isEmpty {
+            print(tempList[indexPath.item])
+        }
+    }
 }
 
-extension RecentWordsCollectionViewCell: ViewDesignProtocol {
+extension RecentWordsTableViewCell: ViewDesignProtocol {
     func configureHierarchy() {
         [titleLabel, deleteButton, collectionView].forEach {
             contentView.addSubview($0)

@@ -32,6 +32,8 @@ final class WordCollectionViewCell: UICollectionViewCell, Identifying {
         return button
     }()
     
+    weak var delegate: DeleteRecentWordProtocol?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -53,7 +55,9 @@ final class WordCollectionViewCell: UICollectionViewCell, Identifying {
     
     @objc
     private func xmarkButtonTapped() {
-        print(#function)
+        if let text = wordLabel.text {
+            delegate?.deleteWord(text)
+        }
     }
 }
 
@@ -79,7 +83,7 @@ extension WordCollectionViewCell: ViewDesignProtocol {
         wordLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().inset(AppPadding.horizontalInset)
-            make.trailing.equalTo(xmarkButton.snp.leading).inset(AppPadding.horizontalInset)
+            make.trailing.equalTo(xmarkButton.snp.leading)
         }
     }
     
