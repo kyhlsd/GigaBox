@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class RecentWordsTableViewCell: UITableViewCell, Identifying {
+final class RecentWordsCollectionViewCell: UITableViewCell, Identifying {
 
     private let titleLabel = {
         let label = UILabel()
@@ -30,15 +30,15 @@ final class RecentWordsTableViewCell: UITableViewCell, Identifying {
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = AppPadding.horizontalInset
         layout.sectionInset = UIEdgeInsets(top: 0, left: AppPadding.horizontalPadding, bottom: 0, right: AppPadding.horizontalPadding)
-        layout.itemSize = CGSize(width: 120, height: 32)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(cellType: WordCollectionViewCell.self)
         collectionView.backgroundColor = .clear
-//        collectionView.register(cellType: <#T##Identifying.Type#>)
+        collectionView.register(cellType: EmptyWordCollectionViewCell.self)
         return collectionView
     }()
     
-    private let tempList = ["현빈", "스파이더", "해리포터", "소방관", "크리스마스"]
+//    private let tempList = ["현빈", "스파이더", "해리포터", "소방관", "크리스마스"]
+    private let tempList = [String]()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -61,19 +61,33 @@ final class RecentWordsTableViewCell: UITableViewCell, Identifying {
     }
 }
 
-extension RecentWordsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
+extension RecentWordsCollectionViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tempList.count
+        return tempList.isEmpty ? 1 : tempList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(cellType: WordCollectionViewCell.self, for: indexPath)
-        cell.configureData(tempList[indexPath.item])
-        return cell
+        if tempList.isEmpty {
+            return collectionView.dequeueReusableCell(cellType: EmptyWordCollectionViewCell.self, for: indexPath)
+        } else {
+            let cell = collectionView.dequeueReusableCell(cellType: WordCollectionViewCell.self, for: indexPath)
+            cell.configureData(tempList[indexPath.item])
+            return cell
+        }
     }
 }
 
-extension RecentWordsTableViewCell: ViewDesignProtocol {
+extension RecentWordsCollectionViewCell: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if tempList.isEmpty {
+            return contentView.frame.size
+        } else {
+            return CGSize(width: 100, height: 32)
+        }
+    }
+}
+
+extension RecentWordsCollectionViewCell: ViewDesignProtocol {
     func configureHierarchy() {
         [titleLabel, deleteButton, collectionView].forEach {
             contentView.addSubview($0)
