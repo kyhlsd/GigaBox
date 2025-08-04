@@ -29,6 +29,8 @@ final class TodayMovieTableViewCell: UITableViewCell, Identifying {
         return collectionView
     }()
     
+    private var trendingMovies: [Movie] = []
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -36,20 +38,36 @@ final class TodayMovieTableViewCell: UITableViewCell, Identifying {
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        callRequest()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    private func callRequest() {
+        let url = MovieRouter.getTrending
+        NetworkManager.shared.fetchData(url: url) { value in
+            self.trendingMovies = value.results
+            self.collectionView.reloadData()
+        } failureHandler: { error in
+            print(error)
+        }
+
+    }
 }
 
 extension TodayMovieTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return trendingMovies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCell(cellType: TodayMovieCollectionViewCell.self, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(cellType: TodayMovieCollectionViewCell.self, for: indexPath)
+        cell.movie = trendingMovies[indexPath.item]
+        cell.configureData()
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

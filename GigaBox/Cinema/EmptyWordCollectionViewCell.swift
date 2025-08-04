@@ -36,7 +36,8 @@ extension EmptyWordCollectionViewCell: ViewDesignProtocol {
     
     func configureLayout() {
         emptyLabel.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.verticalEdges.leading.equalToSuperview()
+            make.trailing.equalToSuperview().inset(AppPadding.horizontalPadding)
         }
     }
     

@@ -10,6 +10,8 @@
 		159A1B152E3B4D2600CB0363 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 159A1B142E3B4D2600CB0363 /* .gitignore */; };
 		159A1BE82E3B981800CB0363 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 159A1BE72E3B981800CB0363 /* SnapKit */; };
 		159A1DEA2E3C3EA200CB0363 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 159A1DE92E3C3EA200CB0363 /* Toast */; };
+		159A213E2E40648600CB0363 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 159A213D2E40648600CB0363 /* Alamofire */; };
+		159A214B2E40ABBB00CB0363 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 159A214A2E40ABBB00CB0363 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +45,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				159A214B2E40ABBB00CB0363 /* Kingfisher in Frameworks */,
+				159A213E2E40648600CB0363 /* Alamofire in Frameworks */,
 				159A1DEA2E3C3EA200CB0363 /* Toast in Frameworks */,
 				159A1BE82E3B981800CB0363 /* SnapKit in Frameworks */,
 			);
@@ -90,6 +94,8 @@
 			packageProductDependencies = (
 				159A1BE72E3B981800CB0363 /* SnapKit */,
 				159A1DE92E3C3EA200CB0363 /* Toast */,
+				159A213D2E40648600CB0363 /* Alamofire */,
+				159A214A2E40ABBB00CB0363 /* Kingfisher */,
 			);
 			productName = GigaBox;
 			productReference = 159A1AFC2E3B4C7C00CB0363 /* GigaBox.app */;
@@ -122,6 +128,8 @@
 			packageReferences = (
 				159A1BE62E3B981800CB0363 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				159A1DE82E3C3EA200CB0363 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				159A213C2E40648600CB0363 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				159A21492E40ABBB00CB0363 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 159A1AFD2E3B4C7C00CB0363 /* Products */;
@@ -380,6 +388,22 @@
 				minimumVersion = 5.1.1;
 			};
 		};
+		159A213C2E40648600CB0363 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		159A21492E40ABBB00CB0363 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -392,6 +416,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 159A1DE82E3C3EA200CB0363 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
 			productName = Toast;
+		};
+		159A213D2E40648600CB0363 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 159A213C2E40648600CB0363 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		159A214A2E40ABBB00CB0363 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 159A21492E40ABBB00CB0363 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

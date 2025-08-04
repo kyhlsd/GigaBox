@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 final class TodayMovieCollectionViewCell: UICollectionViewCell, Identifying {
     
@@ -15,6 +16,7 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell, Identifying {
         imageView.contentMode = .scaleToFill
         imageView.layer.cornerRadius = CornerRadius.small
         imageView.clipsToBounds = true
+        imageView.kf.indicatorType = .activity
         return imageView
     }()
     
@@ -26,7 +28,11 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell, Identifying {
         return label
     }()
     
-    private let favoriteButton = UIButton()
+    private let favoriteButton = {
+        let button = UIButton()
+        button.tintColor = .customGreen
+        return button
+    }()
     
     private let overviewLabel = {
         let label = UILabel()
@@ -35,6 +41,8 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell, Identifying {
         label.numberOfLines = 3
         return label
     }()
+    
+    var movie: Movie?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,13 +55,43 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell, Identifying {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureData() {
+    override func prepareForReuse() {
+        super.prepareForReuse()
         
+        movie = nil
+        posterImageView.image = nil
+        titleLabel.text = nil
+        overviewLabel.text = nil
+        favoriteButton.setImage(nil, for: .normal)
+    }
+    
+    func configureData() {
+        guard let movie else { return }
+        
+        titleLabel.text = movie.title
+        overviewLabel.text = movie.overview
+        
+        let url = URL(string: APIInfo.baseImageURLString + movie.posterPath)
+        posterImageView.kf.setImage(with: url, options: [
+            .processor(DownsamplingImageProcessor(size: CGSize(width: 200, height: 200 / 0.75))),
+            .scaleFactor(UIScreen.main.scale),
+            .cacheOriginalImage
+        ])
+        
+        setFavoriteButton(movie.id)
+    }
+    
+    private func setFavoriteButton(_ id: Int) {
+        let image = UserDefaultManager.isInMovieBox(id) ? "heart.fill" : "heart"
+        favoriteButton.setImage(UIImage(systemName: image), for: .normal)
     }
     
     @objc
     private func favoriteButtonTapped() {
+        guard let id = movie?.id else { return }
         
+        UserDefaultManager.toggleItemInMovieBox(id)
+        setFavoriteButton(id)
     }
 }
 

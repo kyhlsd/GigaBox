@@ -15,7 +15,22 @@ enum UserDefaultManager {
     static var signUpDate: Date?
     
     @UserDefault(key: "MovieBox", defaultValue: [])
-    static var moviebox: [String]
+    static var moviebox: [Int]
+    
+    static func isInMovieBox(_ id: Int) -> Bool {
+        return moviebox.contains(id)
+    }
+    
+    static func toggleItemInMovieBox(_ id: Int) {
+        if let index = moviebox.firstIndex(of: id) {
+            moviebox.remove(at: index)
+        } else {
+            moviebox.append(id)
+        }
+    }
+    
+    @UserDefault(key: "SearchedWords", defaultValue: [])
+    static var searchedWords: [String]
 }
 
 @propertyWrapper
