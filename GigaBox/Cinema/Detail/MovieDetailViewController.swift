@@ -14,9 +14,10 @@ final class MovieDetailViewController: UIViewController {
         let tableView = UITableView()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.register(cellType: MovieInfoTableViewCell.self)
-//        tableView.register(cellType: RecentWordsTableViewCell.self)
+        tableView.register(cellType: SynopsisTableViewCell.self)
 //        tableView.register(cellType: TodayMovieTableViewCell.self)
         tableView.backgroundColor = .clear
+        tableView.isScrollEnabled = false
         return tableView
     }()
     
@@ -72,11 +73,22 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
             let cell = tableView.dequeueReusableCell(cellType: MovieInfoTableViewCell.self, for: indexPath)
             cell.configureData(movie: movie, backdrops: backdrops)
             return cell
-//        case 1:
+        case 1:
+            let cell = tableView.dequeueReusableCell(cellType: SynopsisTableViewCell.self, for: indexPath)
+            cell.delegate = self
+            cell.configureData(text: movie.overview)
+            return cell
 //        case 2:
         default:
             return UITableViewCell()
         }
+    }
+}
+
+extension MovieDetailViewController: TableViewReloadRowDelegate {
+    func reloadRow() {
+        tableView.beginUpdates()
+        tableView.endUpdates()
     }
 }
 

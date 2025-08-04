@@ -30,7 +30,7 @@ final class TodayMovieTableViewCell: UITableViewCell, Identifying {
     }()
     
     private var trendingMovies: [Movie] = []
-    var delegate: PushDetailVCDelegate?
+    weak var delegate: PushDetailVCDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
