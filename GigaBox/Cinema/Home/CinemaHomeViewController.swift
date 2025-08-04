@@ -12,6 +12,10 @@ protocol TableViewReloadRowDelegate: AnyObject {
     func reloadRow()
 }
 
+protocol PushDetailVCDelegate: AnyObject {
+    func pushDetailViewController(movie: Movie)
+}
+
 final class CinemaHomeViewController: UIViewController {
     
     private let tableView = {
@@ -34,10 +38,6 @@ final class CinemaHomeViewController: UIViewController {
         tableView.dataSource = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     @objc
     private func searchButtonTapped() {
         print(#function)
@@ -48,6 +48,13 @@ final class CinemaHomeViewController: UIViewController {
 extension CinemaHomeViewController: TableViewReloadRowDelegate {
     func reloadRow() {
         tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+    }
+}
+
+extension CinemaHomeViewController: PushDetailVCDelegate {
+    func pushDetailViewController(movie: Movie) {
+        let viewController = MovieDetailViewController(movie: movie)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
@@ -63,7 +70,9 @@ extension CinemaHomeViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             return tableView.dequeueReusableCell(cellType: RecentWordsTableViewCell.self, for: indexPath)
         case 2:
-            return tableView.dequeueReusableCell(cellType: TodayMovieTableViewCell.self, for: indexPath)
+            let cell = tableView.dequeueReusableCell(cellType: TodayMovieTableViewCell.self, for: indexPath)
+            cell.delegate = self
+            return cell
         default:
             return UITableViewCell()
         }
@@ -89,12 +98,9 @@ extension CinemaHomeViewController: ViewDesignProtocol {
     }
     
     func configureLayout() {
-        let safeArea = view.safeAreaLayoutGuide
         
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(safeArea).inset(AppPadding.verticalPadding)
-            make.horizontalEdges.equalTo(safeArea)
-            make.bottom.equalTo(safeArea)
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
@@ -102,6 +108,7 @@ extension CinemaHomeViewController: ViewDesignProtocol {
         view.backgroundColor = .customBlack
         
         navigationItem.title = "GigaBox"
+        navigationItem.backButtonTitle = " "
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchButtonTapped))
     }
     

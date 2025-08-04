@@ -30,6 +30,7 @@ final class TodayMovieTableViewCell: UITableViewCell, Identifying {
     }()
     
     private var trendingMovies: [Movie] = []
+    var delegate: PushDetailVCDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -48,7 +49,7 @@ final class TodayMovieTableViewCell: UITableViewCell, Identifying {
     
     private func callRequest() {
         let url = MovieRouter.getTrending
-        NetworkManager.shared.fetchData(url: url) { value in
+        NetworkManager.shared.fetchData(url: url, type: MovieResult.self) { value in
             self.trendingMovies = value.results
             self.collectionView.reloadData()
         } failureHandler: { error in
@@ -71,7 +72,8 @@ extension TodayMovieTableViewCell: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TODO: View 연결
+        let movie = trendingMovies[indexPath.item]
+        delegate?.pushDetailViewController(movie: movie)
     }
 }
 

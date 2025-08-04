@@ -22,6 +22,19 @@ struct Movie: Decodable {
     let releaseDate: String
     let voteAverage: Double
     
+    var representativeGenre: [Genre] {
+        var result = [Genre]()
+        var count = 0
+        for genreId in genreIds {
+            if let genre = Genre(rawValue: genreId) {
+                result.append(genre)
+                count += 1
+                if count == 2 { return result }
+            }
+        }
+        return result
+    }
+    
     enum CodingKeys: String, CodingKey {
         case backdropPath = "backdrop_path"
         case id
@@ -39,7 +52,8 @@ struct Movie: Decodable {
         self.id = try container.decode(Int.self, forKey: .id)
         self.title = try container.decode(String.self, forKey: .title)
         self.overview = try container.decode(String.self, forKey: .overview)
-        self.posterPath = try container.decode(String.self, forKey: .posterPath)
+        let subPath = try container.decode(String.self, forKey: .posterPath)
+        self.posterPath = APIInfo.baseImageURLString + subPath
         self.genreIds = try container.decode([Int].self, forKey: .genreIds)
         self.releaseDate = try container.decode(String.self, forKey: .releaseDate)
         self.voteAverage = try container.decode(Double.self, forKey: .voteAverage)

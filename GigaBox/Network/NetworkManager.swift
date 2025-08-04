@@ -12,10 +12,10 @@ final class NetworkManager {
     static let shared = NetworkManager()
     private init() {}
     
-    func fetchData(url: URLRequestConvertible, successHandler: @escaping (MovieResult) -> Void, failureHandler: @escaping (Error) -> Void) {
+    func fetchData<T: Decodable>(url: URLRequestConvertible, type: T.Type, successHandler: @escaping (T) -> Void, failureHandler: @escaping (Error) -> Void) {
         AF.request(url)
             .validate(statusCode: 200..<300)
-            .responseDecodable(of: MovieResult.self) { response in
+            .responseDecodable(of: type) { response in
                 switch response.result {
                 case .success(let value):
                     successHandler(value)

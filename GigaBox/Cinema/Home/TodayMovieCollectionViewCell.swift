@@ -71,7 +71,7 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell, Identifying {
         titleLabel.text = movie.title
         overviewLabel.text = movie.overview
         
-        let url = URL(string: APIInfo.baseImageURLString + movie.posterPath)
+        let url = URL(string: movie.posterPath)
         posterImageView.kf.setImage(with: url, options: [
             .processor(DownsamplingImageProcessor(size: CGSize(width: 200, height: 200 / 0.75))),
             .scaleFactor(UIScreen.main.scale),
@@ -82,7 +82,7 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell, Identifying {
     }
     
     private func setFavoriteButton(_ id: Int) {
-        let image = UserDefaultManager.isInMovieBox(id) ? "heart.fill" : "heart"
+        let image = UserDefaultManager.MovieBox.getFavoriteImage(id)
         favoriteButton.setImage(UIImage(systemName: image), for: .normal)
     }
     
@@ -90,7 +90,7 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell, Identifying {
     private func favoriteButtonTapped() {
         guard let id = movie?.id else { return }
         
-        UserDefaultManager.toggleItemInMovieBox(id)
+        UserDefaultManager.MovieBox.toggleItemInMovieBox(id)
         setFavoriteButton(id)
     }
 }

@@ -14,18 +14,20 @@ enum UserDefaultManager {
     @UserDefault(key: "SignUpDate", defaultValue: nil)
     static var signUpDate: Date?
     
-    @UserDefault(key: "MovieBox", defaultValue: [])
-    static var moviebox: [Int]
-    
-    static func isInMovieBox(_ id: Int) -> Bool {
-        return moviebox.contains(id)
-    }
-    
-    static func toggleItemInMovieBox(_ id: Int) {
-        if let index = moviebox.firstIndex(of: id) {
-            moviebox.remove(at: index)
-        } else {
-            moviebox.append(id)
+    enum MovieBox {
+        @UserDefault(key: "MovieBox", defaultValue: [])
+        static var list: [Int]
+        
+        static func getFavoriteImage(_ id: Int) -> String {
+            return list.contains(id) ? "heart.fill" : "heart"
+        }
+        
+        static func toggleItemInMovieBox(_ id: Int) {
+            if let index = list.firstIndex(of: id) {
+                list.remove(at: index)
+            } else {
+                list.append(id)
+            }
         }
     }
     

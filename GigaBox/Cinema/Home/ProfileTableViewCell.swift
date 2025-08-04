@@ -48,7 +48,7 @@ final class ProfileTableViewCell: UITableViewCell, Identifying {
     
     private let movieBoxButton = {
         let button = UIButton()
-        button.setTitle("\(UserDefaultManager.moviebox.count)개의 무비박스 보관중", for: .normal)
+        button.setTitle("\(UserDefaultManager.MovieBox.list.count)개의 무비박스 보관중", for: .normal)
         button.setTitleColor(.customWhite, for: .normal)
         button.backgroundColor = .customGreen.withAlphaComponent(0.6)
         button.layer.cornerRadius = CornerRadius.small
@@ -71,7 +71,7 @@ final class ProfileTableViewCell: UITableViewCell, Identifying {
         super.prepareForReuse()
         
         nicknameLabel.text = UserDefaultManager.nickname
-        movieBoxButton.setTitle("\(UserDefaultManager.moviebox.count)개의 무비박스 보관중", for: .normal)
+        movieBoxButton.setTitle("\(UserDefaultManager.MovieBox.list.count)개의 무비박스 보관중", for: .normal)
     }
     
     @objc
