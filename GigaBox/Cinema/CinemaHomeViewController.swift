@@ -19,6 +19,7 @@ final class CinemaHomeViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.register(cellType: ProfileTableViewCell.self)
         tableView.register(cellType: RecentWordsTableViewCell.self)
+        tableView.register(cellType: TodayMovieTableViewCell.self)
         tableView.backgroundColor = .clear
         tableView.isScrollEnabled = false
         return tableView
@@ -61,8 +62,8 @@ extension CinemaHomeViewController: UITableViewDelegate, UITableViewDataSource {
             return tableView.dequeueReusableCell(cellType: ProfileTableViewCell.self, for: indexPath)
         case 1:
             return tableView.dequeueReusableCell(cellType: RecentWordsTableViewCell.self, for: indexPath)
-//        case 2:
-            
+        case 2:
+            return tableView.dequeueReusableCell(cellType: TodayMovieTableViewCell.self, for: indexPath)
         default:
             return UITableViewCell()
         }

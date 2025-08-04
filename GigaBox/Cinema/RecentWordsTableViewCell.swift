@@ -96,6 +96,13 @@ extension RecentWordsTableViewCell: UICollectionViewDelegate, UICollectionViewDa
             return cell
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // TODO: View 연결, 순서 바꾸기
+        if !tempList.isEmpty {
+            print(tempList[indexPath.item])
+        }
+    }
 }
 
 extension RecentWordsTableViewCell: UICollectionViewDelegateFlowLayout {
@@ -104,13 +111,6 @@ extension RecentWordsTableViewCell: UICollectionViewDelegateFlowLayout {
             return contentView.frame.size
         } else {
             return CGSize(width: 100, height: 32)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TODO: View 연결
-        if !tempList.isEmpty {
-            print(tempList[indexPath.item])
         }
     }
 }
