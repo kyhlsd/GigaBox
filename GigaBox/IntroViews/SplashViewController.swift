@@ -28,17 +28,21 @@ final class SplashViewController: IntroBaseViewController {
     }
     
     private func convertViewController() {
-        let viewController = (nickname == nil) ? OnboardingViewController() : CinemaHomeViewController()
-        let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.navigationBar.tintColor = .customGreen
-        navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
-        
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = windowScene.windows.first {
-            DispatchQueue.main.async {
-                UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
-                    window.rootViewController = navigationController
+        if nickname == nil {
+            let navigationController = CustomNavigationController(rootViewController: OnboardingViewController())
+            
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                DispatchQueue.main.async {
+                    UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
+                        window.rootViewController = navigationController
+                    }
                 }
+            }
+        } else {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                window.rootViewController = CustomTabBarController()
             }
         }
     }

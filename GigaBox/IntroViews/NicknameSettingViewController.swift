@@ -67,15 +67,7 @@ final class NicknameSettingViewController: NicknameBaseViewController {
             } else {
                 if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                    let window = windowScene.windows.first {
-                    let navigationController = UINavigationController(rootViewController: CinemaHomeViewController())
-                    navigationController.navigationBar.tintColor = .customGreen
-                    navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
-                    
-                    DispatchQueue.main.async {
-                        UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
-                            window.rootViewController = navigationController
-                        }
-                    }
+                    window.rootViewController = CustomTabBarController()
                 }
             }
         }

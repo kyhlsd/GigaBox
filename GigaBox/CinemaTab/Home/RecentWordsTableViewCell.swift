@@ -42,7 +42,7 @@ final class RecentWordsTableViewCell: UITableViewCell, Identifying {
         return collectionView
     }()
     
-    private var searchedWords = UserDefaultManager.SearchedWords.list
+    private var searchedWords = UserDefaultManager.SearchWords.list
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -61,16 +61,16 @@ final class RecentWordsTableViewCell: UITableViewCell, Identifying {
     
     @objc
     private func clearButtonTapped() {
-        UserDefaultManager.SearchedWords.clear()
-        searchedWords = UserDefaultManager.SearchedWords.list
+        UserDefaultManager.SearchWords.clear()
+        searchedWords = UserDefaultManager.SearchWords.list
         collectionView.reloadData()
     }
 }
 
 extension RecentWordsTableViewCell: DeleteRecentWordProtocol {
     func deleteWord(_ text: String) {
-        UserDefaultManager.SearchedWords.deleteWord(text: text)
-        searchedWords = UserDefaultManager.SearchedWords.list
+        UserDefaultManager.SearchWords.deleteWord(text: text)
+        searchedWords = UserDefaultManager.SearchWords.list
         collectionView.reloadData()
     }
 }

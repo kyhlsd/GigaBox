@@ -31,7 +31,7 @@ enum UserDefaultManager {
         }
     }
     
-    enum SearchedWords {
+    enum SearchWords {
         @UserDefault(key: "SearchedWords", defaultValue: [])
         static var list: [String]
         
@@ -46,6 +46,12 @@ enum UserDefaultManager {
         
         static func deleteWord(text: String) {
             list.removeAll { $0 == text }
+        }
+    }
+    
+    static func clear() {
+        for key in UserDefaults.standard.dictionaryRepresentation().keys {
+            UserDefaults.standard.removeObject(forKey: key.description)
         }
     }
 }
