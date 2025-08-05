@@ -29,6 +29,8 @@ final class CinemaHomeViewController: UIViewController {
         return tableView
     }()
     
+    private var trendingMovies: [Movie] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,6 +38,24 @@ final class CinemaHomeViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        callRequest()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadRows(at: [IndexPath(row: 2, section: 0)], with: .none)
+    }
+    
+    private func callRequest() {
+        let url = MovieRouter.getTrending
+        NetworkManager.shared.fetchData(url: url, type: MovieResult.self) { value in
+            self.trendingMovies = value.results
+            self.tableView.reloadRows(at: [IndexPath(row: 2, section: 0)], with: .none)
+        } failureHandler: { error in
+            print(error)
+        }
     }
     
     @objc
@@ -71,6 +91,7 @@ extension CinemaHomeViewController: UITableViewDelegate, UITableViewDataSource {
             return tableView.dequeueReusableCell(cellType: RecentWordsTableViewCell.self, for: indexPath)
         case 2:
             let cell = tableView.dequeueReusableCell(cellType: TodayMovieTableViewCell.self, for: indexPath)
+            cell.configureData(movies: trendingMovies)
             cell.delegate = self
             return cell
         default:

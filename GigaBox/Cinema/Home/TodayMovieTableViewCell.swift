@@ -39,23 +39,15 @@ final class TodayMovieTableViewCell: UITableViewCell, Identifying {
         
         collectionView.delegate = self
         collectionView.dataSource = self
-        
-        callRequest()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func callRequest() {
-        let url = MovieRouter.getTrending
-        NetworkManager.shared.fetchData(url: url, type: MovieResult.self) { value in
-            self.trendingMovies = value.results
-            self.collectionView.reloadData()
-        } failureHandler: { error in
-            print(error)
-        }
-
+    func configureData(movies: [Movie]) {
+        trendingMovies = movies
+        collectionView.reloadData()
     }
 }
 
