@@ -16,6 +16,7 @@ final class SearchedMovieTableViewCell: UITableViewCell, Identifying {
         imageView.contentMode = .scaleToFill
         imageView.layer.cornerRadius = CornerRadius.medium
         imageView.clipsToBounds = true
+        imageView.tintColor = .customGreen
         imageView.kf.indicatorType = .activity
         return imageView
     }()
@@ -77,12 +78,16 @@ final class SearchedMovieTableViewCell: UITableViewCell, Identifying {
     func configureData(movie: Movie) {
         self.id = movie.id
         
-        let url = URL(string: movie.posterPath)
-        posterImageView.kf.setImage(with: url, options: [
-            .processor(DownsamplingImageProcessor(size: CGSize(width: 60, height: 100))),
-            .scaleFactor(UIScreen.main.scale),
-            .cacheOriginalImage
-        ])
+        if let posterPath = movie.posterPath {
+            let url = URL(string: posterPath)
+            posterImageView.kf.setImage(with: url, options: [
+                .processor(DownsamplingImageProcessor(size: CGSize(width: 60, height: 100))),
+                .scaleFactor(UIScreen.main.scale),
+                .cacheOriginalImage
+            ])
+        } else {
+            posterImageView.image = UIImage(systemName: "photo")
+        }
         
         titleLabel.text = movie.title
         if let date = DateFormatters.yyyyMMddDashFormatter.date(from: movie.releaseDate) {

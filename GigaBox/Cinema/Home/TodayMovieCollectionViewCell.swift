@@ -17,6 +17,7 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell, Identifying {
         imageView.layer.cornerRadius = CornerRadius.small
         imageView.clipsToBounds = true
         imageView.kf.indicatorType = .activity
+        imageView.tintColor = .customGreen
         return imageView
     }()
     
@@ -71,12 +72,16 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell, Identifying {
         titleLabel.text = movie.title
         overviewLabel.text = movie.overview
         
-        let url = URL(string: movie.posterPath)
-        posterImageView.kf.setImage(with: url, options: [
-            .processor(DownsamplingImageProcessor(size: CGSize(width: 200, height: 200 / 0.75))),
-            .scaleFactor(UIScreen.main.scale),
-            .cacheOriginalImage
-        ])
+        if let posterPath = movie.posterPath {
+            let url = URL(string: posterPath)
+            posterImageView.kf.setImage(with: url, options: [
+                .processor(DownsamplingImageProcessor(size: CGSize(width: 200, height: 200 / 0.75))),
+                .scaleFactor(UIScreen.main.scale),
+                .cacheOriginalImage
+            ])
+        } else {
+            posterImageView.image = UIImage(systemName: "photo")
+        }
         
         setFavoriteButton(movie.id)
     }
