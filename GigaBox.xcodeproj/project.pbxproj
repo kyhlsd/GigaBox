@@ -6,8 +6,17 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		159A1B152E3B4D2600CB0363 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 159A1B142E3B4D2600CB0363 /* .gitignore */; };
+		159A1BE82E3B981800CB0363 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 159A1BE72E3B981800CB0363 /* SnapKit */; };
+		159A1DEA2E3C3EA200CB0363 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 159A1DE92E3C3EA200CB0363 /* Toast */; };
+		159A213E2E40648600CB0363 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 159A213D2E40648600CB0363 /* Alamofire */; };
+		159A214B2E40ABBB00CB0363 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 159A214A2E40ABBB00CB0363 /* Kingfisher */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		159A1AFC2E3B4C7C00CB0363 /* GigaBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GigaBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		159A1B142E3B4D2600CB0363 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +45,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				159A214B2E40ABBB00CB0363 /* Kingfisher in Frameworks */,
+				159A213E2E40648600CB0363 /* Alamofire in Frameworks */,
+				159A1DEA2E3C3EA200CB0363 /* Toast in Frameworks */,
+				159A1BE82E3B981800CB0363 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,6 +58,7 @@
 		159A1AF32E3B4C7C00CB0363 = {
 			isa = PBXGroup;
 			children = (
+				159A1B142E3B4D2600CB0363 /* .gitignore */,
 				159A1AFE2E3B4C7C00CB0363 /* GigaBox */,
 				159A1AFD2E3B4C7C00CB0363 /* Products */,
 			);
@@ -78,6 +92,10 @@
 			);
 			name = GigaBox;
 			packageProductDependencies = (
+				159A1BE72E3B981800CB0363 /* SnapKit */,
+				159A1DE92E3C3EA200CB0363 /* Toast */,
+				159A213D2E40648600CB0363 /* Alamofire */,
+				159A214A2E40ABBB00CB0363 /* Kingfisher */,
 			);
 			productName = GigaBox;
 			productReference = 159A1AFC2E3B4C7C00CB0363 /* GigaBox.app */;
@@ -107,6 +125,12 @@
 			);
 			mainGroup = 159A1AF32E3B4C7C00CB0363;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				159A1BE62E3B981800CB0363 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				159A1DE82E3C3EA200CB0363 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				159A213C2E40648600CB0363 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				159A21492E40ABBB00CB0363 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 159A1AFD2E3B4C7C00CB0363 /* Products */;
 			projectDirPath = "";
@@ -122,6 +146,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				159A1B152E3B4D2600CB0363 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,13 +170,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GigaBox/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "김영훈";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -159,9 +188,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yh.GigaBox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -172,13 +205,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GigaBox/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "김영훈";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -186,9 +223,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yh.GigaBox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -333,6 +374,64 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		159A1BE62E3B981800CB0363 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		159A1DE82E3C3EA200CB0363 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
+		159A213C2E40648600CB0363 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		159A21492E40ABBB00CB0363 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		159A1BE72E3B981800CB0363 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 159A1BE62E3B981800CB0363 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		159A1DE92E3C3EA200CB0363 /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 159A1DE82E3C3EA200CB0363 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
+		159A213D2E40648600CB0363 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 159A213C2E40648600CB0363 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		159A214A2E40ABBB00CB0363 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 159A21492E40ABBB00CB0363 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 159A1AF42E3B4C7C00CB0363 /* Project object */;
 }
