@@ -97,6 +97,7 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell, Identifying {
         
         UserDefaultManager.MovieBox.toggleItemInMovieBox(id)
         setFavoriteButton(id)
+        NotificationCenter.default.post(name: .movieBoxChanged, object: nil)
     }
 }
 

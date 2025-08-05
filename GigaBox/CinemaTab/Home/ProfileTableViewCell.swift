@@ -56,11 +56,15 @@ final class ProfileTableViewCell: UITableViewCell, Identifying {
         return button
     }()
     
+    weak var delegate: TableViewReloadRowDelegate?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         configureViewDesign()
         movieBoxButton.addTarget(self, action: #selector(movieBoxButtonTapped), for: .touchUpInside)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMovieBoxButton), name: .movieBoxChanged, object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -71,6 +75,15 @@ final class ProfileTableViewCell: UITableViewCell, Identifying {
         super.prepareForReuse()
         
         nicknameLabel.text = UserDefaultManager.nickname
+        movieBoxButton.setTitle("\(UserDefaultManager.MovieBox.list.count)개의 무비박스 보관중", for: .normal)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc
+    private func updateMovieBoxButton() {
         movieBoxButton.setTitle("\(UserDefaultManager.MovieBox.list.count)개의 무비박스 보관중", for: .normal)
     }
     
