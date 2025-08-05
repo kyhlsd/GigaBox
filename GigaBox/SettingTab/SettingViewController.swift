@@ -37,6 +37,18 @@ final class SettingViewController: UIViewController {
         
         tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
     }
+    
+    private func showAlert(title: String, message: String, handler: @escaping () -> Void) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            handler()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
 }
 
 extension SettingViewController: TableViewReloadRowDelegate {
@@ -69,7 +81,13 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             let navigationController = CustomNavigationController(rootViewController: viewController)
             present(navigationController, animated: true)
         case 4:
-            return
+            showAlert(title: "탈퇴하기", message: "탈퇴를 하면 데이터가 모두 초기화됩니다.\n탈퇴 하시겠습니까?") {
+                UserDefaultManager.clear()
+                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let window = windowScene.windows.first {
+                    window.rootViewController = CustomNavigationController(rootViewController: OnboardingViewController())
+                }
+            }
         default:
             return
         }
@@ -93,6 +111,4 @@ extension SettingViewController: ViewDesignProtocol {
         navigationItem.title = "설정"
         navigationItem.backButtonTitle = " "
     }
-    
-    
 }

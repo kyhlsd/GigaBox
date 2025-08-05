@@ -85,7 +85,7 @@ extension SearchMovieViewController: UISearchBarDelegate {
             return
         }
         
-        UserDefaultManager.SearchedWords.addWord(text: searchText)
+        UserDefaultManager.SearchWords.addWord(text: searchText)
         
         movies.removeAll()
         page = 1
