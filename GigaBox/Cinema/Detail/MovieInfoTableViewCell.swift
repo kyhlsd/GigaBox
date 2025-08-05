@@ -22,6 +22,13 @@ final class MovieInfoTableViewCell: UITableViewCell, Identifying {
         return collectionView
     }()
     
+    private let pageControl = {
+        let pageControl = UIPageControl()
+        pageControl.isUserInteractionEnabled = false
+        pageControl.backgroundStyle = .minimal
+        return pageControl
+    }()
+    
     private let infoLabel = {
         let label = UILabel()
         label.textColor = .customGray
@@ -50,6 +57,7 @@ final class MovieInfoTableViewCell: UITableViewCell, Identifying {
     func configureData(movie: Movie, backdrops: [Backdrop]) {
         configureLabel(movie: movie)
         self.backdropURLs = backdrops.map { $0.filePath }
+        pageControl.numberOfPages = backdrops.count
         collectionView.reloadData()
     }
     
@@ -97,22 +105,17 @@ extension MovieInfoTableViewCell: UICollectionViewDelegate, UICollectionViewData
         cell.configureData(imageURL: backdropURLs[indexPath.item])
         return cell
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let width = scrollView.frame.width
+        pageControl.currentPage = Int(scrollView.contentOffset.x / width)
+    }
 }
 
 extension MovieInfoTableViewCell: ViewDesignProtocol {
     func configureHierarchy() {
-        [collectionView, infoLabel].forEach {
+        [collectionView, pageControl, infoLabel].forEach {
             contentView.addSubview($0)
-        }
-        
-        func getInfoLabel(text: String) -> UILabel {
-            let label = UILabel()
-            label.text = text
-            label.textColor = .customGray
-            label.font = AppFonts.body
-            label.textAlignment = .center
-            label.numberOfLines = 1
-            return label
         }
     }
     
@@ -120,6 +123,11 @@ extension MovieInfoTableViewCell: ViewDesignProtocol {
         collectionView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
             make.height.equalTo(UIScreen.main.bounds.width * 0.6)
+        }
+        
+        pageControl.snp.makeConstraints { make in
+            make.bottom.equalTo(collectionView).inset(AppPadding.verticalInset)
+            make.centerX.equalTo(collectionView)
         }
         
         infoLabel.snp.makeConstraints { make in

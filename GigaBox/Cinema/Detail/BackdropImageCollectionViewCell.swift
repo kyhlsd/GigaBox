@@ -53,6 +53,4 @@ extension BackdropImageCollectionViewCell: ViewDesignProtocol {
     }
     
     func configureView() { }
-    
-    
 }
