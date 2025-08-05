@@ -28,16 +28,45 @@ final class SplashViewController: IntroBaseViewController {
     }
     
     private func convertViewController() {
-        let viewController = (nickname == nil) ? OnboardingViewController() : CinemaHomeViewController()
-        let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.navigationBar.tintColor = .customGreen
-        navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
-        
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = windowScene.windows.first {
-            DispatchQueue.main.async {
-                UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
-                    window.rootViewController = navigationController
+        if nickname == nil {
+            let navigationController = UINavigationController(rootViewController: OnboardingViewController())
+            navigationController.navigationBar.tintColor = .customGreen
+            navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
+            
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                DispatchQueue.main.async {
+                    UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
+                        window.rootViewController = navigationController
+                    }
+                }
+            }
+        } else {
+            let navigationController = UINavigationController(rootViewController: CinemaHomeViewController())
+            navigationController.navigationBar.tintColor = .customGreen
+            navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
+            navigationController.tabBarItem = UITabBarItem(title: "CINEMA", image: UIImage(systemName: "popcorn"), tag: 0)
+            
+            let tabBarController = UITabBarController()
+            tabBarController.viewControllers = [navigationController]
+            
+            let appearance = UITabBarAppearance()
+            appearance.stackedLayoutAppearance.selected.iconColor = .customGreen
+            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.customGreen]
+            appearance.stackedLayoutAppearance.normal.iconColor = .customLightGray
+            appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.customLightGray]
+            appearance.backgroundColor = .customBlack
+            appearance.shadowColor = .customLightGray
+            
+            tabBarController.tabBar.standardAppearance = appearance
+            tabBarController.tabBar.scrollEdgeAppearance = appearance
+            
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                DispatchQueue.main.async {
+                    UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
+                        window.rootViewController = tabBarController
+                    }
                 }
             }
         }
