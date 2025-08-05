@@ -87,5 +87,7 @@ extension WordCollectionViewCell: ViewDesignProtocol {
         }
     }
     
-    func configureView() {}
+    func configureView() {
+        backgroundColor = .clear
+    }
 }

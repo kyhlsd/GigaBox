@@ -50,6 +50,10 @@ final class SearchMovieViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         searchBar.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         searchBar.becomeFirstResponder()
     }
