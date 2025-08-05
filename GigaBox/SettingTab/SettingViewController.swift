@@ -85,7 +85,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                 UserDefaultManager.clear()
                 if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                    let window = windowScene.windows.first {
-                    window.rootViewController = CustomNavigationController(rootViewController: OnboardingViewController())
+                    UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
+                        window.rootViewController = CustomNavigationController(rootViewController: OnboardingViewController())
+                    }
                 }
             }
         default:

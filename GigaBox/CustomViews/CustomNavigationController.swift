@@ -8,14 +8,10 @@
 import UIKit
 
 final class CustomNavigationController: UINavigationController {
-    override init(rootViewController: UIViewController) {
-        super.init(rootViewController: rootViewController)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         configure()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     private func configure() {
