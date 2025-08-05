@@ -65,7 +65,7 @@ extension TodayMovieTableViewCell: UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movie = trendingMovies[indexPath.item]
-        delegate?.pushDetailViewController(movie: movie)
+        delegate?.pushDetailViewController(movie: movie, indexPath: indexPath)
     }
 }
 

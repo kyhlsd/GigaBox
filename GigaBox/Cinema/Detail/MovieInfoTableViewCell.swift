@@ -67,7 +67,9 @@ final class MovieInfoTableViewCell: UITableViewCell, Identifying {
         filmAttachment.bounds = CGRect(x: 0, y: -2, width: 14, height: 14)
         
         attributedString.append(NSAttributedString(attachment: calendarAttachment))
-        attributedString.append(NSAttributedString(string: " \(movie.releaseDate)  |  "))
+        if let date = DateFormatters.yyyyMMddDashFormatter.date(from: movie.releaseDate) {
+            attributedString.append(NSAttributedString(string: " \(DateFormatters.yyyyMMddDotFormatter.string(from: date))  |  "))
+        }
         attributedString.append(NSAttributedString(attachment: starAttachment))
         let voteAverage = NumberFormatters.oneDigitFormatter.string(from: NSNumber(value: movie.voteAverage)) ?? "0.0"
         attributedString.append(NSAttributedString(string: " \(voteAverage)  |  "))

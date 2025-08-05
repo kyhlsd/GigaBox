@@ -60,7 +60,7 @@ final class SynopsisTableViewCell: UITableViewCell, Identifying {
             synopsisLabel.numberOfLines = 3
             synopsisButton.setTitle("More", for: .normal)
         }
-        delegate?.reloadRow()
+        delegate?.reloadRow(nil)
     }
 }
 

@@ -13,4 +13,16 @@ enum DateFormatters {
         formatter.dateFormat = "yy.MM.dd"
         return formatter
     }()
+    
+    static let yyyyMMddDotFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd"
+        return formatter
+    }()
+    
+    static let yyyyMMddDashFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
 }

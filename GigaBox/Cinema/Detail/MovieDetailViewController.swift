@@ -24,6 +24,8 @@ final class MovieDetailViewController: UIViewController {
     private let movie: Movie
     private var backdrops: [Backdrop] = []
     private var casts: [ActorInfo] = []
+    weak var delegate: TableViewReloadRowDelegate?
+    var indexPath: IndexPath?
     
     init(movie: Movie) {
         self.movie = movie
@@ -86,6 +88,8 @@ final class MovieDetailViewController: UIViewController {
         UserDefaultManager.MovieBox.toggleItemInMovieBox(movie.id)
         let image = UserDefaultManager.MovieBox.getFavoriteImage(movie.id)
         navigationItem.rightBarButtonItem?.image = UIImage(systemName: image)
+        
+        delegate?.reloadRow(indexPath)
     }
 }
 
@@ -116,7 +120,7 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
 }
 
 extension MovieDetailViewController: TableViewReloadRowDelegate {
-    func reloadRow() {
+    func reloadRow(_ indexPath: IndexPath?) {
         tableView.beginUpdates()
         tableView.endUpdates()
     }

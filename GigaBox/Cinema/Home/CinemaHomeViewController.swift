@@ -9,11 +9,11 @@ import UIKit
 import SnapKit
 
 protocol TableViewReloadRowDelegate: AnyObject {
-    func reloadRow()
+    func reloadRow(_ indexPath: IndexPath?)
 }
 
 protocol PushDetailVCDelegate: AnyObject {
-    func pushDetailViewController(movie: Movie)
+    func pushDetailViewController(movie: Movie, indexPath: IndexPath)
 }
 
 final class CinemaHomeViewController: UIViewController {
@@ -45,7 +45,7 @@ final class CinemaHomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        tableView.reloadRows(at: [IndexPath(row: 2, section: 0)], with: .none)
+        self.tableView.reloadData()
     }
     
     private func callRequest() {
@@ -60,19 +60,19 @@ final class CinemaHomeViewController: UIViewController {
     
     @objc
     private func searchButtonTapped() {
-        print(#function)
+        navigationController?.pushViewController(SearchMovieViewController(), animated: true)
     }
     
 }
 
 extension CinemaHomeViewController: TableViewReloadRowDelegate {
-    func reloadRow() {
+    func reloadRow(_ indexPath: IndexPath?) {
         tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
     }
 }
 
 extension CinemaHomeViewController: PushDetailVCDelegate {
-    func pushDetailViewController(movie: Movie) {
+    func pushDetailViewController(movie: Movie, indexPath: IndexPath) {
         let viewController = MovieDetailViewController(movie: movie)
         navigationController?.pushViewController(viewController, animated: true)
     }

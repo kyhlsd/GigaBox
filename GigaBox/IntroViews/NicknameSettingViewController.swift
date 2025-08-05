@@ -92,7 +92,7 @@ final class NicknameSettingViewController: NicknameBaseViewController {
     
     @objc
     private func dismissViewController() {
-        delegate?.reloadRow()
+        delegate?.reloadRow(nil)
         dismiss(animated: true)
     }
 }

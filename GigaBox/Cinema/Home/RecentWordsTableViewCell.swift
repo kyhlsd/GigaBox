@@ -22,7 +22,7 @@ final class RecentWordsTableViewCell: UITableViewCell, Identifying {
         return label
     }()
     
-    private let deleteButton = {
+    private let clearButton = {
         let button = UIButton()
         button.setTitle("전체 삭제", for: .normal)
         button.setTitleColor(.customGreen, for: .normal)
@@ -42,7 +42,7 @@ final class RecentWordsTableViewCell: UITableViewCell, Identifying {
         return collectionView
     }()
     
-    private var searchedWords = UserDefaultManager.searchedWords
+    private var searchedWords = UserDefaultManager.SearchedWords.list
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -52,7 +52,7 @@ final class RecentWordsTableViewCell: UITableViewCell, Identifying {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+        clearButton.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -60,17 +60,17 @@ final class RecentWordsTableViewCell: UITableViewCell, Identifying {
     }
     
     @objc
-    private func deleteButtonTapped() {
-        searchedWords.removeAll()
-        UserDefaultManager.searchedWords = searchedWords
+    private func clearButtonTapped() {
+        UserDefaultManager.SearchedWords.clear()
+        searchedWords = UserDefaultManager.SearchedWords.list
         collectionView.reloadData()
     }
 }
 
 extension RecentWordsTableViewCell: DeleteRecentWordProtocol {
     func deleteWord(_ text: String) {
-        searchedWords.removeAll { $0 == text }
-        UserDefaultManager.searchedWords = searchedWords
+        UserDefaultManager.SearchedWords.deleteWord(text: text)
+        searchedWords = UserDefaultManager.SearchedWords.list
         collectionView.reloadData()
     }
 }
@@ -117,7 +117,7 @@ extension RecentWordsTableViewCell: UICollectionViewDelegateFlowLayout {
 
 extension RecentWordsTableViewCell: ViewDesignProtocol {
     func configureHierarchy() {
-        [titleLabel, deleteButton, collectionView].forEach {
+        [titleLabel, clearButton, collectionView].forEach {
             contentView.addSubview($0)
         }
     }
@@ -127,7 +127,7 @@ extension RecentWordsTableViewCell: ViewDesignProtocol {
             make.leading.equalToSuperview().inset(AppPadding.horizontalPadding)
             make.top.equalToSuperview().inset(AppPadding.verticalPadding)
         }
-        deleteButton.snp.makeConstraints { make in
+        clearButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(AppPadding.horizontalPadding)
             make.lastBaseline.equalTo(titleLabel.snp.lastBaseline)
         }

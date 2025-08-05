@@ -12,6 +12,7 @@ enum MovieRouter: URLRequestConvertible {
     case getTrending
     case getBackdrop(id: Int)
     case getCasts(id: Int)
+    case getSearched(keyword: String, page: Int)
     
     var baseURL: URL {
         guard let url = URL(string: APIInfo.baseURLString) else { fatalError("baseURL Error") }
@@ -30,6 +31,8 @@ enum MovieRouter: URLRequestConvertible {
             return "3/movie/\(id)/images"
         case .getCasts(let id):
             return "3/movie/\(id)/credits"
+        case .getSearched(_, _):
+            return "3/search/movie"
         }
     }
     
@@ -45,6 +48,13 @@ enum MovieRouter: URLRequestConvertible {
         case .getCasts(_):
             return [
                 URLQueryItem(name: "language", value: "ko-KR")
+            ]
+        case .getSearched(let keyword, let page):
+            return [
+                URLQueryItem(name: "query", value: keyword),
+                URLQueryItem(name: "include_adult", value: "false"),
+                URLQueryItem(name: "language", value: "ko-KR"),
+                URLQueryItem(name: "page", value: String(page))
             ]
         }
     }

@@ -31,8 +31,23 @@ enum UserDefaultManager {
         }
     }
     
-    @UserDefault(key: "SearchedWords", defaultValue: [])
-    static var searchedWords: [String]
+    enum SearchedWords {
+        @UserDefault(key: "SearchedWords", defaultValue: [])
+        static var list: [String]
+        
+        static func addWord(text: String) {
+            deleteWord(text: text)
+            list.insert(text, at: 0)
+        }
+        
+        static func clear() {
+            list.removeAll()
+        }
+        
+        static func deleteWord(text: String) {
+            list.removeAll { $0 == text }
+        }
+    }
 }
 
 @propertyWrapper

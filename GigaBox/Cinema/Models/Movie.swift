@@ -13,7 +13,7 @@ struct MovieResult: Decodable {
 }
 
 struct Movie: Decodable {
-    let backdropPath: String
+    let backdropPath: String?
     let id: Int
     let title: String
     let overview: String
@@ -48,12 +48,17 @@ struct Movie: Decodable {
     
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.backdropPath = try container.decode(String.self, forKey: .backdropPath)
+        let backdropSubPath = try container.decodeIfPresent(String.self, forKey: .backdropPath)
+        if let backdropSubPath {
+            self.backdropPath = APIInfo.baseImageURLString + backdropSubPath
+        } else {
+            self.backdropPath = nil
+        }
         self.id = try container.decode(Int.self, forKey: .id)
         self.title = try container.decode(String.self, forKey: .title)
         self.overview = try container.decode(String.self, forKey: .overview)
-        let subPath = try container.decode(String.self, forKey: .posterPath)
-        self.posterPath = APIInfo.baseImageURLString + subPath
+        let posterSubPath = try container.decode(String.self, forKey: .posterPath)
+        self.posterPath = APIInfo.baseImageURLString + posterSubPath
         self.genreIds = try container.decode([Int].self, forKey: .genreIds)
         self.releaseDate = try container.decode(String.self, forKey: .releaseDate)
         self.voteAverage = try container.decode(Double.self, forKey: .voteAverage)

@@ -24,7 +24,7 @@ final class SplashViewController: IntroBaseViewController {
         super.configureView()
         
         titleLabel.text = "GigaBox"
-        subtitleLabel.text = nickname
+        subtitleLabel.text = nickname ?? "김영훈"
     }
     
     private func convertViewController() {
