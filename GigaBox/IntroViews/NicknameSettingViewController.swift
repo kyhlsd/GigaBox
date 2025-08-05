@@ -65,13 +65,13 @@ final class NicknameSettingViewController: NicknameBaseViewController {
             if isEditingMode {
                 dismissViewController()
             } else {
-                let navigationController = UINavigationController(rootViewController: CinemaHomeViewController())
-                navigationController.navigationBar.tintColor = .customGreen
-                navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
-                navigationController.tabBarItem = UITabBarItem(title: "CINEMA", image: UIImage(systemName: "popcorn"), tag: 0)
+                let cinemaNavController = CustomNavigationController(rootViewController: CinemaHomeViewController())
+                cinemaNavController.tabBarItem = UITabBarItem(title: "CINEMA", image: UIImage(systemName: "popcorn"), tag: 0)
+                let settingNavController = CustomNavigationController(rootViewController: SettingViewController())
+                settingNavController.tabBarItem = UITabBarItem(title: "PROFILE", image: UIImage(systemName: "person.circle"), tag: 1)
                 
                 let tabBarController = UITabBarController()
-                tabBarController.viewControllers = [navigationController]
+                tabBarController.viewControllers = [cinemaNavController, settingNavController]
                 
                 let appearance = UITabBarAppearance()
                 appearance.stackedLayoutAppearance.selected.iconColor = .customGreen

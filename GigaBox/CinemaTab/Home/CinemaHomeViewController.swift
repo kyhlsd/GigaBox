@@ -105,9 +105,7 @@ extension CinemaHomeViewController: UITableViewDelegate, UITableViewDataSource {
             let viewController = NicknameSettingViewController()
             viewController.setEditingMode()
             viewController.delegate = self
-            let navigationController = UINavigationController(rootViewController: viewController)
-            navigationController.navigationBar.tintColor = .customGreen
-            navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
+            let navigationController = CustomNavigationController(rootViewController: viewController)
             present(navigationController, animated: true)
         }
     }
