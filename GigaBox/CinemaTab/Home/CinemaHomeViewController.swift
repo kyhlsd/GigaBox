@@ -16,6 +16,10 @@ protocol PushDetailVCDelegate: AnyObject {
     func pushDetailViewController(movie: Movie, indexPath: IndexPath)
 }
 
+protocol PushSearchVCDelegate: AnyObject {
+    func pushSearchViewController(keyword: String)
+}
+
 final class CinemaHomeViewController: UIViewController {
     
     private let tableView = {
@@ -78,6 +82,14 @@ extension CinemaHomeViewController: PushDetailVCDelegate {
     }
 }
 
+extension CinemaHomeViewController: PushSearchVCDelegate {
+    func pushSearchViewController(keyword: String) {
+        let viewController = SearchMovieViewController()
+        viewController.setInitialSearchWord(keyword: keyword)
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+
 extension CinemaHomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
@@ -88,7 +100,10 @@ extension CinemaHomeViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return tableView.dequeueReusableCell(cellType: ProfileTableViewCell.self, for: indexPath)
         case 1:
-            return tableView.dequeueReusableCell(cellType: RecentWordsTableViewCell.self, for: indexPath)
+            let cell = tableView.dequeueReusableCell(cellType: RecentWordsTableViewCell.self, for: indexPath)
+            cell.configureData()
+            cell.delegate = self
+            return cell
         case 2:
             let cell = tableView.dequeueReusableCell(cellType: TodayMovieTableViewCell.self, for: indexPath)
             cell.configureData(movies: trendingMovies)
@@ -130,6 +145,4 @@ extension CinemaHomeViewController: ViewDesignProtocol {
         navigationItem.backButtonTitle = " "
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchButtonTapped))
     }
-    
-    
 }

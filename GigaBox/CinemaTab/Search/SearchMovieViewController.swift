@@ -51,7 +51,7 @@ final class SearchMovieViewController: UIViewController {
         tableView.dataSource = self
         searchBar.delegate = self
         
-        searchBar.resignFirstResponder()
+        searchBar.becomeFirstResponder()
     }
 
     private func callRequest(keyword: String) {
@@ -67,6 +67,11 @@ final class SearchMovieViewController: UIViewController {
         } failureHandler: { error in
             print(error)
         }
+    }
+    
+    func setInitialSearchWord(keyword: String) {
+        searchBar.text = keyword
+        callRequest(keyword: keyword)
     }
 }
 
