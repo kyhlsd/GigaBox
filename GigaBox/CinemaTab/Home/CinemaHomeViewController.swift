@@ -58,7 +58,12 @@ final class CinemaHomeViewController: UIViewController {
             self.trendingMovies = value.results
             self.tableView.reloadRows(at: [IndexPath(row: 2, section: 0)], with: .none)
         } failureHandler: { error in
-            print(error)
+            switch error {
+            case .unknown(let error):
+                self.showDefaultAlert(title: "데이터 가져오기 실패", message: error.localizedDescription)
+            case .apiError(let movieAPIError):
+                self.showDefaultAlert(title: "데이터 가져오기 실패", message: movieAPIError.statusMessage)
+            }
         }
     }
     

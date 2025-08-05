@@ -69,7 +69,16 @@ final class SearchMovieViewController: UIViewController {
                 self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
             }
         } failureHandler: { error in
-            print(error)
+            switch error {
+            case .unknown(let error):
+                self.showDefaultAlert(title: "데이터 가져오기 실패", message: error.localizedDescription)
+            case .apiError(let movieAPIError):
+                self.showDefaultAlert(title: "데이터 가져오기 실패", message: movieAPIError.statusMessage)
+            }
+            self.isEnd = false
+            if self.page > 1 {
+                self.page -= 1
+            }
         }
     }
     
