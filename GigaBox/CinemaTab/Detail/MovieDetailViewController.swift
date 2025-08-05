@@ -65,7 +65,12 @@ final class MovieDetailViewController: UIViewController {
             self.backdrops = value.representativeBackdrops
             group.leave()
         } failureHandler: { error in
-            print(error)
+            switch error {
+            case .unknown(let error):
+                self.showDefaultAlert(title: "데이터 가져오기 실패", message: error.localizedDescription)
+            case .apiError(let movieAPIError):
+                self.showDefaultAlert(title: "데이터 가져오기 실패", message: movieAPIError.statusMessage)
+            }
             group.leave()
         }
     }
@@ -77,7 +82,12 @@ final class MovieDetailViewController: UIViewController {
             self.casts = value.cast
             group.leave()
         } failureHandler: { error in
-            print(error)
+            switch error {
+            case .unknown(let error):
+                self.showDefaultAlert(title: "데이터 가져오기 실패", message: error.localizedDescription)
+            case .apiError(let movieAPIError):
+                self.showDefaultAlert(title: "데이터 가져오기 실패", message: movieAPIError.statusMessage)
+            }
             group.leave()
         }
 

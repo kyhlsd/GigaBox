@@ -13,6 +13,10 @@ struct SearchedResult: Decodable {
     let totalPages: Int
     let totalResults: Int
     
+    var isEnd: Bool {
+        return totalPages == page
+    }
+    
     enum CodingKeys: String, CodingKey {
         case page
         case results

@@ -92,6 +92,8 @@ final class SearchedMovieTableViewCell: UITableViewCell, Identifying {
         titleLabel.text = movie.title
         if let date = DateFormatters.yyyyMMddDashFormatter.date(from: movie.releaseDate) {
             dateLabel.text = DateFormatters.yyyyMMddDotFormatter.string(from: date)
+        } else {
+            dateLabel.text = movie.releaseDate
         }
         
         setFavoriteButton(movie.id)

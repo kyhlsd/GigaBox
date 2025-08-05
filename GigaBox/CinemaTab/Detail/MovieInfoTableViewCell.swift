@@ -77,6 +77,8 @@ final class MovieInfoTableViewCell: UITableViewCell, Identifying {
         attributedString.append(NSAttributedString(attachment: calendarAttachment))
         if let date = DateFormatters.yyyyMMddDashFormatter.date(from: movie.releaseDate) {
             attributedString.append(NSAttributedString(string: " \(DateFormatters.yyyyMMddDotFormatter.string(from: date))  |  "))
+        } else {
+            attributedString.append(NSAttributedString(string: " \(movie.releaseDate)  |  "))
         }
         attributedString.append(NSAttributedString(attachment: starAttachment))
         let voteAverage = NumberFormatters.oneDigitFormatter.string(from: NSNumber(value: movie.voteAverage)) ?? "0.0"
@@ -84,12 +86,14 @@ final class MovieInfoTableViewCell: UITableViewCell, Identifying {
         attributedString.append(NSAttributedString(attachment: filmAttachment))
         
         let genres = movie.representativeGenre
-        var genreString = " "
-        for genre in genres {
-            genreString += genre.name + ", "
+        if !genres.isEmpty {
+            var genreString = " "
+            for genre in genres {
+                genreString += genre.name + ", "
+            }
+            genreString.removeLast(2)
+            attributedString.append(NSAttributedString(string: genreString))
         }
-        genreString.removeLast(2)
-        attributedString.append(NSAttributedString(string: genreString))
         
         infoLabel.attributedText = attributedString
     }

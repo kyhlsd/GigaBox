@@ -42,7 +42,8 @@ final class RecentWordsTableViewCell: UITableViewCell, Identifying {
         return collectionView
     }()
     
-    private var searchedWords = UserDefaultManager.SearchWords.list
+    private var searchWords = UserDefaultManager.SearchWords.list
+    weak var delegate: PushSearchVCDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -59,10 +60,15 @@ final class RecentWordsTableViewCell: UITableViewCell, Identifying {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configureData() {
+        searchWords = UserDefaultManager.SearchWords.list
+        collectionView.reloadData()
+    }
+    
     @objc
     private func clearButtonTapped() {
         UserDefaultManager.SearchWords.clear()
-        searchedWords = UserDefaultManager.SearchWords.list
+        searchWords.removeAll()
         collectionView.reloadData()
     }
 }
@@ -70,44 +76,45 @@ final class RecentWordsTableViewCell: UITableViewCell, Identifying {
 extension RecentWordsTableViewCell: DeleteRecentWordProtocol {
     func deleteWord(_ text: String) {
         UserDefaultManager.SearchWords.deleteWord(text: text)
-        searchedWords = UserDefaultManager.SearchWords.list
+        searchWords = UserDefaultManager.SearchWords.list
         collectionView.reloadData()
     }
 }
 
 extension RecentWordsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if searchedWords.isEmpty {
+        if searchWords.isEmpty {
             collectionView.isScrollEnabled = false
             return 1
         } else {
             collectionView.isScrollEnabled = true
-            return searchedWords.count
+            return searchWords.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if searchedWords.isEmpty {
+        if searchWords.isEmpty {
             return collectionView.dequeueReusableCell(cellType: EmptyWordCollectionViewCell.self, for: indexPath)
         } else {
             let cell = collectionView.dequeueReusableCell(cellType: WordCollectionViewCell.self, for: indexPath)
             cell.delegate = self
-            cell.configureData(searchedWords[indexPath.item])
+            cell.configureData(searchWords[indexPath.item])
             return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TODO: View 연결, 순서 바꾸기
-        if !searchedWords.isEmpty {
-            print(searchedWords[indexPath.item])
-        }
+        if searchWords.isEmpty { return }
+        
+        let searchWord = searchWords[indexPath.item]
+        UserDefaultManager.SearchWords.addWord(text: searchWord)
+        delegate?.pushSearchViewController(keyword: searchWord)
     }
 }
 
 extension RecentWordsTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if searchedWords.isEmpty {
+        if searchWords.isEmpty {
             return contentView.frame.size
         } else {
             return CGSize(width: 100, height: 32)

@@ -41,5 +41,7 @@ extension EmptyWordCollectionViewCell: ViewDesignProtocol {
         }
     }
     
-    func configureView() { }
+    func configureView() {
+        backgroundColor = .clear
+    }
 }

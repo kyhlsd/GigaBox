@@ -17,5 +17,6 @@ final class CustomNavigationController: UINavigationController {
     private func configure() {
         navigationBar.tintColor = .customGreen
         navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
+        view.backgroundColor = .customBlack
     }
 }

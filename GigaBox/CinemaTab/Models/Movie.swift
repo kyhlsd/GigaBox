@@ -63,8 +63,11 @@ struct Movie: Decodable {
         } else {
             self.posterPath = nil
         }
-        self.genreIds = try container.decode([Int].self, forKey: .genreIds)
-        self.releaseDate = try container.decode(String.self, forKey: .releaseDate)
-        self.voteAverage = try container.decode(Double.self, forKey: .voteAverage)
+        let genreIds = try container.decodeIfPresent([Int].self, forKey: .genreIds)
+        self.genreIds = genreIds ?? []
+        let releaseDate = try container.decodeIfPresent(String.self, forKey: .releaseDate)
+        self.releaseDate = releaseDate ?? "정보 없음"
+        let voteAverage = try container.decodeIfPresent(Double.self, forKey: .voteAverage)
+        self.voteAverage = voteAverage ?? 0.0
     }
 }
