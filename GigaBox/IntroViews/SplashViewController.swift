@@ -24,12 +24,14 @@ final class SplashViewController: IntroBaseViewController {
         super.configureView()
         
         titleLabel.text = "GigaBox"
-        subtitleLabel.text = nickname
+        subtitleLabel.text = nickname ?? "김영훈"
     }
     
     private func convertViewController() {
-        let viewController = (nickname == nil) ? OnboardingViewController() : ViewController()
+        let viewController = (nickname == nil) ? OnboardingViewController() : CinemaHomeViewController()
         let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.navigationBar.tintColor = .customGreen
+        navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
         
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let window = windowScene.windows.first {

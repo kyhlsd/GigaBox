@@ -21,6 +21,8 @@ final class NicknameSettingViewController: NicknameBaseViewController {
     
     var nickname = UserDefaultManager.nickname
     var nicknameErrorMessage: String?
+    private var isEditingMode = false
+    weak var delegate: TableViewReloadRowDelegate?
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -55,15 +57,43 @@ final class NicknameSettingViewController: NicknameBaseViewController {
             view.makeToast(nicknameErrorMessage, duration: 2, position: .bottom, style: toastStyle)
         } else {
             UserDefaultManager.nickname = nickname
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let window = windowScene.windows.first {
-                DispatchQueue.main.async {
-                    UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
-                        window.rootViewController = ViewController()
+            
+            if UserDefaultManager.signUpDate == nil {
+                UserDefaultManager.signUpDate = Date()
+            }
+            
+            if isEditingMode {
+                dismissViewController()
+            } else {
+                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let window = windowScene.windows.first {
+                    let navigationController = UINavigationController(rootViewController: CinemaHomeViewController())
+                    navigationController.navigationBar.tintColor = .customGreen
+                    navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.customWhite]
+                    
+                    DispatchQueue.main.async {
+                        UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
+                            window.rootViewController = navigationController
+                        }
                     }
                 }
             }
         }
+    }
+    
+    func setEditingMode() {
+        navigationItem.title = "닉네임 편집"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(completeButtonTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(dismissViewController))
+        
+        isEditingMode = true
+        completeButton.isHidden = true
+    }
+    
+    @objc
+    private func dismissViewController() {
+        delegate?.reloadRow(nil)
+        dismiss(animated: true)
     }
 }
 
