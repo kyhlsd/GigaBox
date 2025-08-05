@@ -14,7 +14,7 @@ final class MovieInfoTableViewCell: UITableViewCell, Identifying {
         layout.minimumLineSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         let deviceWidth = UIScreen.main.bounds.width
-        layout.itemSize = CGSize(width: deviceWidth, height: deviceWidth * 0.75)
+        layout.itemSize = CGSize(width: deviceWidth, height: deviceWidth * 0.6)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(cellType: BackdropImageCollectionViewCell.self)
         collectionView.backgroundColor = .clear
@@ -117,7 +117,7 @@ extension MovieInfoTableViewCell: ViewDesignProtocol {
     func configureLayout() {
         collectionView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
-            make.height.equalTo(UIScreen.main.bounds.width * 0.75)
+            make.height.equalTo(UIScreen.main.bounds.width * 0.6)
         }
         
         infoLabel.snp.makeConstraints { make in

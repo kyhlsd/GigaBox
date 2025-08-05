@@ -15,7 +15,7 @@ final class MovieDetailViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.register(cellType: MovieInfoTableViewCell.self)
         tableView.register(cellType: SynopsisTableViewCell.self)
-//        tableView.register(cellType: TodayMovieTableViewCell.self)
+        tableView.register(cellType: CastTableViewCell.self)
         tableView.backgroundColor = .clear
         tableView.isScrollEnabled = false
         return tableView
@@ -23,6 +23,7 @@ final class MovieDetailViewController: UIViewController {
     
     private let movie: Movie
     private var backdrops: [Backdrop] = []
+    private var casts: [ActorInfo] = []
     
     init(movie: Movie) {
         self.movie = movie
@@ -41,17 +42,43 @@ final class MovieDetailViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        callBackdropRequest()
+        callRequests()
     }
     
-    private func callBackdropRequest() {
+    private func callRequests() {
+        let group = DispatchGroup()
+        
+        callBackdropRequest(group: group)
+        callCreditRequest(group: group)
+        
+        group.notify(queue: .main) {
+            self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)], with: .none)
+        }
+    }
+    
+    private func callBackdropRequest(group: DispatchGroup) {
         let url = MovieRouter.getBackdrop(id: movie.id)
+        group.enter()
         NetworkManager.shared.fetchData(url: url, type: BackdropResult.self) { value in
             self.backdrops = value.representativeBackdrops
-            self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+            group.leave()
         } failureHandler: { error in
             print(error)
+            group.leave()
         }
+    }
+    
+    private func callCreditRequest(group: DispatchGroup) {
+        let url = MovieRouter.getCasts(id: movie.id)
+        group.enter()
+        NetworkManager.shared.fetchData(url: url, type: CastResult.self) { value in
+            self.casts = value.cast
+            group.leave()
+        } failureHandler: { error in
+            print(error)
+            group.leave()
+        }
+
     }
     
     @objc
@@ -78,7 +105,10 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
             cell.delegate = self
             cell.configureData(text: movie.overview)
             return cell
-//        case 2:
+        case 2:
+            let cell = tableView.dequeueReusableCell(cellType: CastTableViewCell.self, for: indexPath)
+            cell.configureData(casts: casts)
+            return cell
         default:
             return UITableViewCell()
         }

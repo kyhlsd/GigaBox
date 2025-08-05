@@ -11,6 +11,7 @@ import Alamofire
 enum MovieRouter: URLRequestConvertible {
     case getTrending
     case getBackdrop(id: Int)
+    case getCasts(id: Int)
     
     var baseURL: URL {
         guard let url = URL(string: APIInfo.baseURLString) else { fatalError("baseURL Error") }
@@ -27,6 +28,8 @@ enum MovieRouter: URLRequestConvertible {
             return "3/trending/movie/day"
         case .getBackdrop(let id):
             return "3/movie/\(id)/images"
+        case .getCasts(let id):
+            return "3/movie/\(id)/credits"
         }
     }
     
@@ -39,6 +42,10 @@ enum MovieRouter: URLRequestConvertible {
             ]
         case .getBackdrop(_):
             return []
+        case .getCasts(_):
+            return [
+                URLQueryItem(name: "language", value: "ko-KR")
+            ]
         }
     }
     
@@ -56,7 +63,6 @@ enum MovieRouter: URLRequestConvertible {
         var url = try baseURL.asURL()
         if let paths { url = url.appendingPathComponent(paths) }
         url = url.appending(queryItems: queryItems)
-        
         var urlRequest = URLRequest(url: url)
         urlRequest.method = method
         urlRequest.headers = headers

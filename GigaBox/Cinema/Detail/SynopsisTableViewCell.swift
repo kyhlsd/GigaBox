@@ -82,7 +82,7 @@ extension SynopsisTableViewCell: ViewDesignProtocol {
         }
         synopsisLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(AppPadding.verticalInset)
-            make.horizontalEdges.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(AppPadding.verticalPadding)
             make.bottom.equalToSuperview()
         }
     }
