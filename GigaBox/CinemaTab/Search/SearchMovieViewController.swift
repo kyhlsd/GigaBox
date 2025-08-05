@@ -39,6 +39,8 @@ final class SearchMovieViewController: UIViewController {
     
     private var movies: [Movie] = []
     private var page = 1
+    private var isEnd = false
+    private var prevSearchWord = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +59,11 @@ final class SearchMovieViewController: UIViewController {
         NetworkManager.shared.fetchData(url: url, type: SearchedResult.self) { value in
             self.movies.append(contentsOf: value.results)
             self.tableView.separatorStyle = self.movies.isEmpty ? .none : .singleLine
+            self.isEnd = value.isEnd
             self.tableView.reloadData()
+            if value.page == 1 {
+                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+            }
         } failureHandler: { error in
             print(error)
         }
@@ -88,6 +94,7 @@ extension SearchMovieViewController: UISearchBarDelegate {
         UserDefaultManager.SearchWords.addWord(text: searchText)
         
         movies.removeAll()
+        prevSearchWord = searchText
         page = 1
         callRequest(keyword: searchText)
     }
@@ -124,6 +131,14 @@ extension SearchMovieViewController: UITableViewDelegate, UITableViewDataSource 
         viewController.indexPath = indexPath
         viewController.delegate = self
         navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == movies.count - 6, !isEnd {
+            page += 1
+            isEnd = true
+            callRequest(keyword: prevSearchWord)
+        }
     }
 }
 
