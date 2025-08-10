@@ -19,14 +19,18 @@ final class NetworkMonitor {
     
     func startMonitoring() {
         monitor.pathUpdateHandler = { [weak self] path in
+            guard let self = self else { return }
+            
             if path.status == .satisfied {
-                self?.isConnected = true
-            } else {
-                self?.isConnected = false
-                self?.presentDisconnectedAlert()
+                isConnected = true
+            }
+            else {
+                if isConnected {
+                    presentDisconnectedAlert()
+                }
+                isConnected = false
             }
         }
-        
         monitor.start(queue: queue)
     }
     
